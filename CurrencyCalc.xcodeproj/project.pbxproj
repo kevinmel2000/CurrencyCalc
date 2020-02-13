@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -76,7 +76,6 @@
 				8AF704CCA323440B29386640 /* Pods-CurrencyCalcTests.debug.xcconfig */,
 				CD09787570357D64FE7600A1 /* Pods-CurrencyCalcTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -144,6 +143,7 @@
 				42EB372F23F594D900B2F200 /* Frameworks */,
 				42EB373023F594D900B2F200 /* Resources */,
 				5A1603064D02AB6F265556E5 /* [CP] Embed Pods Frameworks */,
+				42EB375723F59AE400B2F200 /* Bump Up Build Number */,
 			);
 			buildRules = (
 			);
@@ -232,6 +232,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		42EB375723F59AE400B2F200 /* Bump Up Build Number */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Bump Up Build Number";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "BUILDNUM=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nNEWBUILDNUM=$(($BUILDNUM + 1))\nNEWBUILDNUMSTRING=`echo $NEWBUILDNUM`\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $NEWBUILDNUMSTRING\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n";
+		};
 		5A1603064D02AB6F265556E5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
