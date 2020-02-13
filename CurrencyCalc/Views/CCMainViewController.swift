@@ -23,6 +23,7 @@ class CCMainViewController: UIViewController {
     private var currencyListTextField: UITextField!
     private var convertedAmountLabel: UILabel!
     private var lowerStackView: UIStackView!
+    private var calculateButton: UIButton!
 
     //dummy
     private let currencyArr = Observable.just(["AUD", "CNY", "JPY", "SGD"])
@@ -44,7 +45,7 @@ class CCMainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        title = "Currency Exchange"
         view.backgroundColor = .white
 
         setupEvents()
@@ -68,6 +69,8 @@ extension CCMainViewController {
     private func setupViews() {
         setupSourceField()
         setupConvertedField()
+        setupCalculateButton()
+        setupActions()
     }
 
     private func setupSourceField() {
@@ -107,16 +110,6 @@ extension CCMainViewController {
         lowerStackView.distribution = .fill
 
         currencyPicker = UIPickerView()
-        currencyArr.bind(to: currencyPicker.rx.itemTitles) { _, element in
-            return element
-        }.disposed(by: disposeBag)
-
-        currencyPicker.rx.itemSelected.subscribe(onNext: { [weak self] row, value in
-            guard let `self` = self else { return }
-            self.currencyArr.elementAt(value).subscribe(onNext: { elementValue in
-                self.currencyListTextField.text = elementValue[row]
-            }).disposed(by: self.disposeBag)
-        }).disposed(by: disposeBag)
 
         currencyListTextField = UITextField(frame: .zero)
         currencyListTextField.backgroundColor = .lightGray
@@ -145,7 +138,57 @@ extension CCMainViewController {
         })
     }
 
+    private func setupCalculateButton() {
+        calculateButton = UIButton(type: .custom)
+        calculateButton.setTitle("Calculate", for: .normal)
+        calculateButton.setTitleColor(.white, for: .normal)
+        calculateButton.backgroundColor = .blue
+        calculateButton.layer.cornerRadius = 5
+        calculateButton.layer.masksToBounds = true
+        view.addSubview(calculateButton)
+
+        calculateButton.snp.makeConstraints({ make in
+            make.leading.equalTo(lowerStackView.snp.leading)
+            make.trailing.equalTo(lowerStackView.snp.trailing)
+            make.top.equalTo(lowerStackView.snp.bottom).offset(25)
+            make.height.equalTo(50)
+        })
+    }
+
+    private func setupActions() {
+        preparePickerViewAction()
+        prepareCalculateButtonAction()
+    }
+
     @objc private func dismissKeyboard() {
         view.endEditing(true)
+    }
+}
+
+// MARK: - Actions
+extension CCMainViewController {
+    private func preparePickerViewAction() {
+        currencyArr.bind(to: currencyPicker.rx.itemTitles) { _, element in
+            return element
+        }.disposed(by: disposeBag)
+
+        currencyPicker.rx
+            .itemSelected
+            .subscribe(onNext: { [weak self] row, value in
+            guard let `self` = self else { return }
+            self.currencyArr
+                .elementAt(value)
+                .subscribe(onNext: { elementValue in
+                self.currencyListTextField.text = elementValue[row]
+            }).disposed(by: self.disposeBag)
+        }).disposed(by: disposeBag)
+    }
+
+    private func prepareCalculateButtonAction() {
+        calculateButton.rx
+            .tap
+            .asObservable().subscribe(onNext: { _ in
+            print()
+        }).disposed(by: disposeBag)
     }
 }
