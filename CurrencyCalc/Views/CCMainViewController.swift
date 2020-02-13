@@ -57,6 +57,7 @@ class CCMainViewController: UIViewController {
     }
 }
 
+// MARK: - Setup
 extension CCMainViewController {
     private func setupEvents() {
         viewModel.uiEvents.subscribe(onNext: { event in
@@ -76,24 +77,25 @@ extension CCMainViewController {
     private func setupSourceField() {
         upperStackView = UIStackView(frame: .zero)
         upperStackView.distribution = .fill
+        
+        var customData = UISetupModel()
+        var chp = ContentHuggingPrio(prio: .defaultHigh, axis: .horizontal)
 
         currencySourceLabel = UILabel(frame: .zero)
-        currencySourceLabel.text = "USD"
-        currencySourceLabel.font = UIFont.systemFont(ofSize: 32)
-        currencySourceLabel.textAlignment = .left
-        currencySourceLabel.textColor = .black
-        currencySourceLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        customData.text = "USD"
+        customData.textAlignment = .left
+        customData.textColor = .black
+        customData.contentHuggingPrio = chp
+        currencySourceLabel.setup(with: customData)
         upperStackView.addArrangedSubview(currencySourceLabel)
 
         amountTextField = UITextField(frame: .zero)
-        amountTextField.backgroundColor = .lightGray
-        amountTextField.keyboardType = .numberPad
-        amountTextField.borderStyle = .bezel
-        amountTextField.textAlignment = .right
-        amountTextField.placeholder = "Type number here"
-        amountTextField.clearsOnBeginEditing = false
-        amountTextField.font = .systemFont(ofSize: 32)
-        amountTextField.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        customData.placeholderText = "Type number here"
+        customData.keyboardType = .numberPad
+        customData.textAlignment = .right
+        chp = ContentHuggingPrio(prio: .defaultLow, axis: .horizontal)
+        customData.contentHuggingPrio = chp
+        amountTextField.setup(with: customData)
         upperStackView.addArrangedSubview(amountTextField)
 
         view.addSubview(upperStackView)
@@ -111,22 +113,24 @@ extension CCMainViewController {
 
         currencyPicker = UIPickerView()
 
+        var customData = UISetupModel()
+        var chp = ContentHuggingPrio(prio: .defaultHigh, axis: .horizontal)
+
         currencyListTextField = UITextField(frame: .zero)
-        currencyListTextField.backgroundColor = .lightGray
-        currencyListTextField.borderStyle = .bezel
-        currencyListTextField.textAlignment = .left
-        currencyListTextField.placeholder = "--Choose--"
-        currencyListTextField.font = .systemFont(ofSize: 32)
+        customData.placeholderText = "--Choose--"
+        customData.textAlignment = .center
+        customData.contentHuggingPrio = chp
+        currencyListTextField.setup(with: customData)
         currencyListTextField.inputView = currencyPicker
-        currencyListTextField.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         lowerStackView.addArrangedSubview(currencyListTextField)
 
         convertedAmountLabel = UILabel(frame: .zero)
-        convertedAmountLabel.text = "0"
-        convertedAmountLabel.font = UIFont.systemFont(ofSize: 32)
-        convertedAmountLabel.textAlignment = .right
-        convertedAmountLabel.textColor = .black
-        convertedAmountLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        customData.text = "0"
+        customData.textAlignment = .right
+        customData.textColor = .black
+        chp = ContentHuggingPrio(prio: .defaultLow, axis: .horizontal)
+        customData.contentHuggingPrio = chp
+        convertedAmountLabel.setup(with: customData)
         lowerStackView.addArrangedSubview(convertedAmountLabel)
 
         view.addSubview(lowerStackView)
