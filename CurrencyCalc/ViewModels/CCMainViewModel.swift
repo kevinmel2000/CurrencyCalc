@@ -45,6 +45,6 @@ extension CCMainViewModel {
     }
 
     private func getCurrenciesData() {
-        
+        print()
     }
 }

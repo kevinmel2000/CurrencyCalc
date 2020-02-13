@@ -15,7 +15,7 @@ class CCMainViewController: UIViewController {
     private var viewModel: CCMainViewModel!
 
     private let disposeBag = DisposeBag()
-    
+
     private var currencySourceLabel: UILabel!
     private var amountTextField: UITextField!
     private var upperStackView: UIStackView!
@@ -44,7 +44,7 @@ class CCMainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         view.backgroundColor = .white
 
         setupEvents()
@@ -81,7 +81,7 @@ extension CCMainViewController {
         currencySourceLabel.textColor = .black
         currencySourceLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         upperStackView.addArrangedSubview(currencySourceLabel)
-        
+
         amountTextField = UITextField(frame: .zero)
         amountTextField.backgroundColor = .lightGray
         amountTextField.keyboardType = .numberPad
@@ -92,7 +92,7 @@ extension CCMainViewController {
         amountTextField.font = .systemFont(ofSize: 32)
         amountTextField.setContentHuggingPriority(.defaultLow, for: .horizontal)
         upperStackView.addArrangedSubview(amountTextField)
-        
+
         view.addSubview(upperStackView)
 
         upperStackView.snp.makeConstraints({ make in
@@ -127,7 +127,7 @@ extension CCMainViewController {
         currencyListTextField.inputView = currencyPicker
         currencyListTextField.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         lowerStackView.addArrangedSubview(currencyListTextField)
-        
+
         convertedAmountLabel = UILabel(frame: .zero)
         convertedAmountLabel.text = "0"
         convertedAmountLabel.font = UIFont.systemFont(ofSize: 32)
@@ -144,7 +144,6 @@ extension CCMainViewController {
             make.top.equalTo(amountTextField.snp.bottom).offset(25)
         })
     }
-    
 
     @objc private func dismissKeyboard() {
         view.endEditing(true)
