@@ -38,6 +38,11 @@ class CCMainViewController: UIViewController {
         super.viewDidLoad()
 
         setupEvents()
+        setupViews()
+
+        let tapGestureRecognizer = UITapGestureRecognizer()
+        tapGestureRecognizer.addTarget(self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGestureRecognizer)
     }
 }
 
@@ -51,16 +56,18 @@ extension CCMainViewController {
     }
 
     private func setupViews() {
-        if textField == nil {
-            textField = UITextField(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 100))
-            textField.backgroundColor = .white
-            textField.keyboardType = .numberPad
-            view.addSubview(textField)
+        textField = UITextField(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 100))
+        textField.backgroundColor = .white
+        textField.keyboardType = .numberPad
+        view.addSubview(textField)
 
-            textField.snp.makeConstraints({ make in
-                make.leading.trailing.top.equalToSuperview()
-                make.height.equalTo(50)
-            })
-        }
+        textField.snp.makeConstraints({ make in
+            make.leading.trailing.top.equalToSuperview()
+            make.height.equalTo(50)
+        })
+    }
+
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
