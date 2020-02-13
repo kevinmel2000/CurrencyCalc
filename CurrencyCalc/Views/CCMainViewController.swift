@@ -7,24 +7,60 @@
 //
 
 import UIKit
+import RxSwift
+import RxOptional
+import SnapKit
 
 class CCMainViewController: UIViewController {
+    private var viewModel: CCMainViewModel!
+
+    private let disposeBag = DisposeBag()
+    
+    private var textField: UITextField!
+    private var currencyMenu: UIPickerView!
+
+    // MARK: - Initialization
+    convenience init() {
+        self.init(viewModel: nil)
+    }
+
+    init(viewModel: CCMainViewModel?) {
+        super.init(nibName: nil, bundle: nil)
+
+        self.viewModel = viewModel
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        setupEvents()
     }
-    
+}
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+extension CCMainViewController {
+    private func setupEvents() {
+        viewModel.uiEvents.subscribe(onNext: { event in
+            switch event {
+            default: break
+            }
+        }).disposed(by: disposeBag)
     }
-    */
 
+    private func setupViews() {
+        if textField == nil {
+            textField = UITextField(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 100))
+            textField.backgroundColor = .white
+            textField.keyboardType = .numberPad
+            view.addSubview(textField)
+
+            textField.snp.makeConstraints({ make in
+                make.leading.trailing.top.equalToSuperview()
+                make.height.equalTo(50)
+            })
+        }
+    }
 }
