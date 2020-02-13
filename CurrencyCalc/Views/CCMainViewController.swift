@@ -159,14 +159,14 @@ extension CCMainViewController {
         preparePickerViewAction()
         prepareCalculateButtonAction()
     }
-
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
-    }
 }
 
 // MARK: - Actions
 extension CCMainViewController {
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+
     private func preparePickerViewAction() {
         currencyArr.bind(to: currencyPicker.rx.itemTitles) { _, element in
             return element
