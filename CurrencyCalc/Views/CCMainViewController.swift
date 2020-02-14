@@ -24,9 +24,11 @@ class CCMainViewController: UIViewController {
     private var convertedAmountLabel: UILabel!
     private var lowerStackView: UIStackView!
     private var calculateButton: UIButton!
+    private var dateLabel: UILabel!
+    private var collectionView: UICollectionView!
 
     //dummy
-    private let currencyArr = Observable.just(["AUD", "CNY", "JPY", "SGD"])
+    private let currencyArr = Observable.just(CConstants.API.currencyArr)
 
     // MARK: - Initialization
     convenience init() {
@@ -73,6 +75,7 @@ extension CCMainViewController {
         setupSourceField()
         setupConvertedField()
         setupCalculateButton()
+        setupExchangeDataField()
         setupActions()
     }
 
@@ -162,7 +165,22 @@ extension CCMainViewController {
     }
 
     private func setupExchangeDataField() {
-        
+        dateLabel = UILabel(frame: .zero)
+        var customData = UISetupModel()
+        customData.text = "Last Update: \(CCDateUtil().getStrNow())"
+        customData.textAlignment = .left
+        customData.textColor = .black
+        customData.font = .systemFont(ofSize: 15)
+        dateLabel.setup(with: customData)
+
+        view.addSubview(dateLabel)
+
+        dateLabel.snp.makeConstraints({ make in
+            make.leading.equalTo(calculateButton.snp.leading)
+            make.trailing.equalTo(calculateButton.snp.trailing)
+            make.top.equalTo(calculateButton.snp.bottom).offset(15)
+            make.height.equalTo(25)
+        })
     }
 
     private func setupActions() {

@@ -63,9 +63,7 @@ extension CCurrencyLayerTarget {
 
         switch group {
         case .historical:
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "YYYY-MM-dd"
-            params[CConstants.APIParameters.date] = dateFormatter.string(from: Date())
+            params[CConstants.APIParameters.date] = CCDateUtil().getStrNow()
         default: break
         }
 

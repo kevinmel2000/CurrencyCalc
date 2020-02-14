@@ -13,7 +13,7 @@ extension UILabel {
     func setup(with customData: UISetupModel?) {
         guard let customData = customData else { return }
         text = customData.text
-        font = UIFont.systemFont(ofSize: 32)
+        font = customData.font ?? UIFont.systemFont(ofSize: 32)
         textAlignment = customData.textAlignment ?? .left
         textColor = customData.textColor ?? .black
         if let chp = customData.contentHuggingPrio {

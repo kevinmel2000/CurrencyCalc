@@ -13,6 +13,7 @@ struct UISetupModel {
     var text: String?
     var textColor: UIColor?
     var placeholderText: String?
+    var font: UIFont?
     var contentHuggingPrio: ContentHuggingPrio?
     var keyboardType: UIKeyboardType?
     var textAlignment: NSTextAlignment?

@@ -9,6 +9,9 @@
 import Foundation
 
 struct CConstants {
+    struct Common {
+        static let dateFormat = "YYYY-MM-dd"
+    }
     struct API {
         static let accessKey = "f22339d3c9a04da3652d945a52f048f0"
         static let url = "http://api.currencylayer.com/"
