@@ -54,6 +54,8 @@ class CCMainViewController: UIViewController {
         let tapGestureRecognizer = UITapGestureRecognizer()
         tapGestureRecognizer.addTarget(self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGestureRecognizer)
+
+        viewModel.viewModelEvents.onNext(.getCurrenciesData(.live))
     }
 }
 
@@ -77,7 +79,7 @@ extension CCMainViewController {
     private func setupSourceField() {
         upperStackView = UIStackView(frame: .zero)
         upperStackView.distribution = .fill
-        
+
         var customData = UISetupModel()
         var chp = ContentHuggingPrio(prio: .defaultHigh, axis: .horizontal)
 

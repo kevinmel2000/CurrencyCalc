@@ -22,6 +22,9 @@
 		42EB377323F5D22800B2F200 /* CCServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EB377223F5D22800B2F200 /* CCServiceError.swift */; };
 		42EB377523F5D72700B2F200 /* Extension+MoyaResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EB377423F5D72700B2F200 /* Extension+MoyaResponse.swift */; };
 		42EB377823F5D8CA00B2F200 /* CConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EB377723F5D8CA00B2F200 /* CConstants.swift */; };
+		42EB377A23F6DE2500B2F200 /* CCurrencyLayerTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EB377923F6DE2500B2F200 /* CCurrencyLayerTarget.swift */; };
+		42EB377C23F6E7FD00B2F200 /* CCurrencyLayerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EB377B23F6E7FC00B2F200 /* CCurrencyLayerService.swift */; };
+		42EB377F23F6E8A200B2F200 /* CCurrencyLayerResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EB377E23F6E8A200B2F200 /* CCurrencyLayerResponse.swift */; };
 		4DA9D43FAF1BB4334C2205CD /* Pods_CurrencyCalc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71DD99687D17B6B343AC5C9F /* Pods_CurrencyCalc.framework */; };
 		885E442C8FEBD271317F660D /* Pods_CurrencyCalcTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBDCAF176BFDE55A4A77445F /* Pods_CurrencyCalcTests.framework */; };
 /* End PBXBuildFile section */
@@ -57,6 +60,9 @@
 		42EB377223F5D22800B2F200 /* CCServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCServiceError.swift; sourceTree = "<group>"; };
 		42EB377423F5D72700B2F200 /* Extension+MoyaResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+MoyaResponse.swift"; sourceTree = "<group>"; };
 		42EB377723F5D8CA00B2F200 /* CConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CConstants.swift; sourceTree = "<group>"; };
+		42EB377923F6DE2500B2F200 /* CCurrencyLayerTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCurrencyLayerTarget.swift; sourceTree = "<group>"; };
+		42EB377B23F6E7FC00B2F200 /* CCurrencyLayerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCurrencyLayerService.swift; sourceTree = "<group>"; };
+		42EB377E23F6E8A200B2F200 /* CCurrencyLayerResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCurrencyLayerResponse.swift; sourceTree = "<group>"; };
 		71DD99687D17B6B343AC5C9F /* Pods_CurrencyCalc.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CurrencyCalc.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AF704CCA323440B29386640 /* Pods-CurrencyCalcTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CurrencyCalcTests.debug.xcconfig"; path = "Target Support Files/Pods-CurrencyCalcTests/Pods-CurrencyCalcTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BBDCAF176BFDE55A4A77445F /* Pods_CurrencyCalcTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CurrencyCalcTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -144,6 +150,7 @@
 		42EB375923F59C5500B2F200 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				42EB377D23F6E86300B2F200 /* CCurrencyLayer */,
 				42EB377123F5D21300B2F200 /* Error */,
 				42EB376523F5C76A00B2F200 /* UI */,
 			);
@@ -198,6 +205,8 @@
 			children = (
 				42EB376D23F5D12000B2F200 /* CCMoyaProvider.swift */,
 				42EB376F23F5D16400B2F200 /* CCNetworkEvent.swift */,
+				42EB377923F6DE2500B2F200 /* CCurrencyLayerTarget.swift */,
+				42EB377B23F6E7FC00B2F200 /* CCurrencyLayerService.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -216,6 +225,14 @@
 				42EB377723F5D8CA00B2F200 /* CConstants.swift */,
 			);
 			path = Constant;
+			sourceTree = "<group>";
+		};
+		42EB377D23F6E86300B2F200 /* CCurrencyLayer */ = {
+			isa = PBXGroup;
+			children = (
+				42EB377E23F6E8A200B2F200 /* CCurrencyLayerResponse.swift */,
+			);
+			path = CCurrencyLayer;
 			sourceTree = "<group>";
 		};
 		A49B84AEA1DD4056217DD25C /* Frameworks */ = {
@@ -435,7 +452,9 @@
 			files = (
 				42EB377323F5D22800B2F200 /* CCServiceError.swift in Sources */,
 				42EB376B23F5CFBB00B2F200 /* UISetupModel.swift in Sources */,
+				42EB377C23F6E7FD00B2F200 /* CCurrencyLayerService.swift in Sources */,
 				42EB377023F5D16400B2F200 /* CCNetworkEvent.swift in Sources */,
+				42EB377F23F6E8A200B2F200 /* CCurrencyLayerResponse.swift in Sources */,
 				42EB375E23F59CCB00B2F200 /* CCMainViewController.swift in Sources */,
 				42EB373623F594D900B2F200 /* AppDelegate.swift in Sources */,
 				42EB376923F5CB8800B2F200 /* Extension+UILabel.swift in Sources */,
@@ -445,6 +464,7 @@
 				42EB376E23F5D12000B2F200 /* CCMoyaProvider.swift in Sources */,
 				42EB377523F5D72700B2F200 /* Extension+MoyaResponse.swift in Sources */,
 				42EB376023F59CDF00B2F200 /* CCMainViewModel.swift in Sources */,
+				42EB377A23F6DE2500B2F200 /* CCurrencyLayerTarget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

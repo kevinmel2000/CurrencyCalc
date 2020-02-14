@@ -11,7 +11,7 @@ import RxSwift
 import RxOptional
 
 enum CCMainViewModelEvent: Equatable {
-    case getCurrenciesData
+    case getCurrenciesData(_ group: CConstants.API.DataType)
 
     static func == (lhs: CCMainViewModelEvent, rhs: CCMainViewModelEvent) -> Bool {
         switch (lhs, rhs) {
@@ -29,7 +29,12 @@ protocol CCMainViewModelViewModelType {
 final class CCMainViewModel: CCMainViewModelViewModelType {
     let uiEvents = PublishSubject<CCMainViewModelEvent>()
     let viewModelEvents = PublishSubject<CCMainViewModelEvent>()
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
+    private let service = QCCurrencyLayerService()
+
+    init() {
+        setupEvents()
+    }
 }
 
 // MARK: - Private Methods
@@ -38,13 +43,23 @@ extension CCMainViewModel {
         viewModelEvents.subscribe(onNext: { [weak self] event in
             guard let `self` = self else { return }
             switch event {
-            case .getCurrenciesData:
-                self.getCurrenciesData()
+            case .getCurrenciesData(let group):
+                self.getCurrenciesData(group)
             }
         }).disposed(by: disposeBag)
     }
 
-    private func getCurrenciesData() {
-        print()
+    private func getCurrenciesData(_ group: CConstants.API.DataType) {
+        service.getCurrencyData(group)
+            .asObservable()
+            .subscribe(onNext: { event in
+                switch event {
+                case .waiting: break
+                case .failed(let error):
+                    print("error = \(error)")
+                case .succeeded(let response):
+                    print("response = \(response)")
+                }
+            }).disposed(by: disposeBag)
     }
 }
