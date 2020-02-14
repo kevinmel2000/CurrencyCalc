@@ -127,7 +127,7 @@ extension CCMainViewController {
         lowerStackView.addArrangedSubview(currencyListTextField)
 
         convertedAmountLabel = UILabel(frame: .zero)
-        customData.text = "0"
+        customData.text = String(format: "%.2f", arguments: [0])
         customData.textAlignment = .right
         customData.textColor = .black
         chp = ContentHuggingPrio(prio: .defaultLow, axis: .horizontal)
@@ -159,6 +159,10 @@ extension CCMainViewController {
             make.top.equalTo(lowerStackView.snp.bottom).offset(25)
             make.height.equalTo(50)
         })
+    }
+
+    private func setupExchangeDataField() {
+        
     }
 
     private func setupActions() {

@@ -18,6 +18,7 @@ struct CCurrencyLayerResponse: HandyJSON {
     var success: Bool = false
     var terms: String?
     var privacy: String?
+    var date: String?
     var timestamp: Double?
     var source: String?
     var quotes: CCurrencyLayerQuotes?
