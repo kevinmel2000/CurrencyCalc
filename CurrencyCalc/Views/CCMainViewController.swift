@@ -13,6 +13,7 @@ import SnapKit
 
 class CCMainViewController: UIViewController {
     typealias CVCell = CCMainCollectionViewCell
+    typealias Constants = CConstants.MainVC
 
     private var viewModel: CCMainViewModel!
 
@@ -50,7 +51,7 @@ class CCMainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Currency Exchange"
+        title = Constants.title
         view.backgroundColor = .white
 
         setupEvents()
@@ -60,7 +61,8 @@ class CCMainViewController: UIViewController {
         tapGestureRecognizer.addTarget(self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGestureRecognizer)
 
-        viewModel.viewModelEvents.onNext(.getCurrenciesData(.live))
+//        viewModel.viewModelEvents.onNext(.getCurrenciesData(.live))
+        viewModel.viewModelEvents.onNext(.getCurrenciesData(.historical))
     }
 }
 
@@ -74,6 +76,9 @@ extension CCMainViewController {
                 guard let response = self.viewModel.currencyLayerResponse else { return }
                 self.currencyData = response.getQuoteArr().compactMap({$0})
                 self.collectionView.reloadData()
+                if let strDate = response.date {
+                    self.dateLabel.text = String(format: Constants.dateLabel, arguments: [strDate])
+                }
             case .requestDataFailure(let error):
                 var alertModel = UIAlertModel(style: .alert)
                 if let error = error {
@@ -197,7 +202,7 @@ extension CCMainViewController {
     private func setupExchangeDataField() {
         dateLabel = UILabel(frame: .zero)
         var customData = UISetupModel()
-        customData.text = "Currency exchange data from USD.\nLast Update: \(CCDateUtil().getStrNow())"
+        customData.text = String(format: Constants.dateLabel, arguments: ["-"])
         customData.textAlignment = .left
         customData.textColor = .black
         customData.font = .systemFont(ofSize: 15)
