@@ -17,10 +17,10 @@ struct QCCurrencyLayerService: HQCCurrencyLayerType {
     private let provider: MoyaProvider<CCurrencyLayerTarget>
 
     init() {
-        provider = HQMoyaProvider<CCurrencyLayerTarget>()
+        provider = CCMoyaProvider<CCurrencyLayerTarget>()
     }
 
-    init(provider: HQMoyaProvider<CCurrencyLayerTarget>) {
+    init(provider: CCMoyaProvider<CCurrencyLayerTarget>) {
         self.provider = provider
     }
 

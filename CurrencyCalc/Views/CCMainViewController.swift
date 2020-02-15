@@ -12,6 +12,8 @@ import RxOptional
 import SnapKit
 
 class CCMainViewController: UIViewController {
+    typealias CVCell = CCMainCollectionViewCell
+
     private var viewModel: CCMainViewModel!
 
     private let disposeBag = DisposeBag()
@@ -27,8 +29,9 @@ class CCMainViewController: UIViewController {
     private var dateLabel: UILabel!
     private var collectionView: UICollectionView!
 
-    //dummy
     private let currencyArr = Observable.just(CConstants.API.currencyArr)
+    private var currencyData: [String]?
+    private let cellID = String(describing: CVCell.self)
 
     // MARK: - Initialization
     convenience init() {
@@ -64,8 +67,31 @@ class CCMainViewController: UIViewController {
 // MARK: - Setup
 extension CCMainViewController {
     private func setupEvents() {
-        viewModel.uiEvents.subscribe(onNext: { event in
+        viewModel.uiEvents.subscribe(onNext: { [weak self] event in
+            guard let `self` = self else { return }
             switch event {
+            case .requestDataSuccess:
+                guard let response = self.viewModel.currencyLayerResponse else { return }
+                self.currencyData = response.getQuoteArr().compactMap({$0})
+                self.collectionView.reloadData()
+            case .requestDataFailure(let error):
+                var alertModel = UIAlertModel(style: .alert)
+                if let error = error {
+                    alertModel.message = error.responseString ?? String()
+                } else {
+                    guard let response = self.viewModel.currencyLayerResponse,
+                        let error = response.error else { return }
+                    alertModel.message = error.info ?? String() + "(code: \(error.code ?? 0))"
+                }
+
+                alertModel.title = "Request Data Failure"
+                alertModel.actions = [UIAlertActionModel(title: "OK", style: .cancel)]
+                self.showAlert(with: alertModel)
+                .asObservable()
+                .subscribe(onNext: { selectedActionIdx in
+                //handle the action here
+                    print("alert action index = \(selectedActionIdx)")
+                }).disposed(by: self.disposeBag)
             default: break
             }
         }).disposed(by: disposeBag)
@@ -167,19 +193,41 @@ extension CCMainViewController {
     private func setupExchangeDataField() {
         dateLabel = UILabel(frame: .zero)
         var customData = UISetupModel()
-        customData.text = "Last Update: \(CCDateUtil().getStrNow())"
+        customData.text = "Currency exchange data from USD.\nLast Update: \(CCDateUtil().getStrNow())"
         customData.textAlignment = .left
         customData.textColor = .black
         customData.font = .systemFont(ofSize: 15)
+        customData.numberOfLines = 0
         dateLabel.setup(with: customData)
-
         view.addSubview(dateLabel)
+        
+        let collectionViewLayout = UICollectionViewFlowLayout()
+        collectionViewLayout.minimumLineSpacing = 10
+        collectionViewLayout.minimumInteritemSpacing = 10
+        collectionViewLayout.itemSize = CGSize(width: 150, height: 150)
+        collectionView = UICollectionView(frame: .zero,
+                                          collectionViewLayout: collectionViewLayout)
+        collectionView.register(CVCell.self,
+                                forCellWithReuseIdentifier: cellID)
+        collectionView.allowsSelection = false
+        collectionView.allowsMultipleSelection = false
+        collectionView.backgroundColor = .white
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        view.addSubview(collectionView)
 
         dateLabel.snp.makeConstraints({ make in
             make.leading.equalTo(calculateButton.snp.leading)
             make.trailing.equalTo(calculateButton.snp.trailing)
             make.top.equalTo(calculateButton.snp.bottom).offset(15)
-            make.height.equalTo(25)
+//            make.height.equalTo(25)
+        })
+
+        collectionView.snp.makeConstraints({ make in
+            make.leading.equalTo(dateLabel.snp.leading)
+            make.trailing.equalTo(dateLabel.snp.trailing)
+            make.bottom.equalTo(view.snp.bottomMargin).offset(25)
+            make.top.equalTo(dateLabel.snp.bottom).offset(15)
         })
     }
 
@@ -218,5 +266,32 @@ extension CCMainViewController {
             .asObservable().subscribe(onNext: { _ in
             print()
         }).disposed(by: disposeBag)
+    }
+}
+
+extension CCMainViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return currencyData?.count ?? 0
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as? CVCell else { return UICollectionViewCell()}
+        return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let cell = cell as? CVCell, let data = currencyData else { return }
+        var text = String()
+        currencyArr
+            .enumerated()
+            .subscribe(onNext:{ value in
+                text = value.element[indexPath.item] + ":\n" + data[indexPath.item]
+                cell.setupData(with: text)
+            }).disposed(by: disposeBag)
+//        cell.setupData(with: data[indexPath.item])
     }
 }

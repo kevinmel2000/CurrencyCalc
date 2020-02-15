@@ -16,6 +16,7 @@ extension UILabel {
         font = customData.font ?? UIFont.systemFont(ofSize: 32)
         textAlignment = customData.textAlignment ?? .left
         textColor = customData.textColor ?? .black
+        numberOfLines = customData.numberOfLines ?? 1
         if let chp = customData.contentHuggingPrio {
             setContentHuggingPriority(chp.prio, for: chp.axis)
         }

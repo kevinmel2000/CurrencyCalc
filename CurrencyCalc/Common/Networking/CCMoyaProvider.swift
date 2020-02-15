@@ -9,7 +9,7 @@
 import Foundation
 import Moya
 
-class HQMoyaProvider<T>: MoyaProvider<T> where T: TargetType {
+class CCMoyaProvider<T>: MoyaProvider<T> where T: TargetType {
     override init(endpointClosure: @escaping MoyaProvider<T>.EndpointClosure = MoyaProvider.defaultEndpointMapping,
                   requestClosure: @escaping MoyaProvider<T>.RequestClosure = MoyaProvider<T>.defaultRequestMapping,
                   stubClosure: @escaping MoyaProvider<T>.StubClosure = MoyaProvider.neverStub,

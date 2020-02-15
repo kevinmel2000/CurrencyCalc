@@ -17,6 +17,7 @@ struct UISetupModel {
     var contentHuggingPrio: ContentHuggingPrio?
     var keyboardType: UIKeyboardType?
     var textAlignment: NSTextAlignment?
+    var numberOfLines: Int?
 }
 
 struct ContentHuggingPrio {

@@ -58,9 +58,14 @@ struct CCurrencyLayerResponse: HandyJSON {
                 self.mxn <-- "USDMXN"
         }
     }
-    
+
     struct CCurrencyLayerError: HandyJSON {
         var code: Int?
         var info: String?
+    }
+
+    func getQuoteArr() -> [String?] {
+        guard let quotes = quotes else { return [nil] }
+        return [quotes.usd, quotes.aud, quotes.cad, quotes.mxn, quotes.pln]
     }
 }
