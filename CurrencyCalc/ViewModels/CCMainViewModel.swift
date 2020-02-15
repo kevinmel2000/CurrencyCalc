@@ -15,13 +15,16 @@ enum CCMainViewModelEvent: Equatable {
     case networkFailure
     case requestDataSuccess
     case requestDataFailure(_ error: CCServiceError?)
+    case calculateExchangeCurrency(_ value: Float, _ exchange: String)
+    case resultCalculation(_ result: Float)
 
     static func == (lhs: CCMainViewModelEvent, rhs: CCMainViewModelEvent) -> Bool {
         switch (lhs, rhs) {
         case (getCurrenciesData, getCurrenciesData),
              (networkFailure, networkFailure),
              (requestDataSuccess, requestDataSuccess),
-             (requestDataFailure, requestDataFailure):
+             (requestDataFailure, requestDataFailure),
+             (calculateExchangeCurrency, calculateExchangeCurrency):
             return true
         default: return false
         }
@@ -55,6 +58,8 @@ extension CCMainViewModel {
             switch event {
             case .getCurrenciesData(let group):
                 self.getCurrenciesData(group)
+            case let .calculateExchangeCurrency(value, exchange):
+                self.calculateExchangeCurrency(value, exchange: exchange)
             default: break
             }
         }).disposed(by: disposeBag)
@@ -78,5 +83,24 @@ extension CCMainViewModel {
                     }
                 }
             }).disposed(by: disposeBag)
+    }
+
+    private func calculateExchangeCurrency(_ value: Float, exchange: String) {
+        guard let currencyResponse = currencyLayerResponse,
+            let quote = currencyResponse.quotes else { return }
+        var multiplier: Float = 0
+        switch exchange {
+        case "AUD":
+            multiplier = Float(quote.aud ?? "0")!
+        case "CAD":
+            multiplier = Float(quote.cad ?? "0")!
+        case "MXN":
+            multiplier = Float(quote.mxn ?? "0")!
+        case "PLN":
+            multiplier = Float(quote.pln ?? "0")!
+        default:
+            break
+        }
+        uiEvents.onNext(.resultCalculation(value * multiplier))
     }
 }

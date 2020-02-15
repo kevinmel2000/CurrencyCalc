@@ -92,6 +92,10 @@ extension CCMainViewController {
                 //handle the action here
                     print("alert action index = \(selectedActionIdx)")
                 }).disposed(by: self.disposeBag)
+            case .resultCalculation(let result):
+                DispatchQueue.main.async {
+                    self.convertedAmountLabel.text  = String(format: "%.2f", result)
+                }
             default: break
             }
         }).disposed(by: disposeBag)
@@ -200,7 +204,7 @@ extension CCMainViewController {
         customData.numberOfLines = 0
         dateLabel.setup(with: customData)
         view.addSubview(dateLabel)
-        
+
         let collectionViewLayout = UICollectionViewFlowLayout()
         collectionViewLayout.minimumLineSpacing = 10
         collectionViewLayout.minimumInteritemSpacing = 10
@@ -263,35 +267,49 @@ extension CCMainViewController {
     private func prepareCalculateButtonAction() {
         calculateButton.rx
             .tap
-            .asObservable().subscribe(onNext: { _ in
-            print()
+            .asObservable()
+            .subscribe(onNext: { [weak self] _ in
+                guard let `self` = self else { return }
+                var amount: Float = 0
+                var exchange = String()
+                if let amountTxt = self.amountTextField.text,
+                    let xchgTxt =  self.currencyListTextField.text,
+                    let amountFloat = Float(amountTxt) {
+                    amount = amountFloat
+                    exchange = xchgTxt
+                }
+                self.viewModel
+                    .viewModelEvents
+                    .onNext(.calculateExchangeCurrency(amount, exchange))
         }).disposed(by: disposeBag)
     }
 }
 
-extension CCMainViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
+extension CCMainViewController: UICollectionViewDelegateFlowLayout,
+UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return currencyData?.count ?? 0
     }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as? CVCell else { return UICollectionViewCell()}
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView
+            .dequeueReusableCell(withReuseIdentifier: cellID,
+                                 for: indexPath) as? CVCell else { return UICollectionViewCell()}
         return cell
     }
-
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView,
+                        willDisplay cell: UICollectionViewCell,
+                        forItemAt indexPath: IndexPath) {
         guard let cell = cell as? CVCell, let data = currencyData else { return }
         var text = String()
         currencyArr
             .enumerated()
-            .subscribe(onNext:{ value in
+            .subscribe(onNext: { value in
                 text = value.element[indexPath.item] + ":\n" + data[indexPath.item]
                 cell.setupData(with: text)
             }).disposed(by: disposeBag)
-//        cell.setupData(with: data[indexPath.item])
     }
 }

@@ -12,9 +12,10 @@ import RxSwift
 extension UIViewController {
     func showAlert(with model: UIAlertModel?) -> Observable<Int> {
         guard let model = model else { return Observable.just(-1)}
-        
         return Observable.create({ observer in
-            let alertController = UIAlertController(title: model.title, message: model.message, preferredStyle: model.style)
+            let alertController = UIAlertController(title: model.title,
+                                                    message: model.message,
+                                                    preferredStyle: model.style)
             if let actions = model.actions {
                 actions.enumerated().forEach({ index, action in
                     let action = UIAlertAction(title: action.title, style: action.style, handler: { _ in
@@ -25,7 +26,7 @@ extension UIViewController {
                 })
             }
             self.present(alertController, animated: true, completion: nil)
-            return Disposables.create{ alertController.dismiss(animated: true, completion: nil) }
+            return Disposables.create { alertController.dismiss(animated: true, completion: nil) }
         })
     }
 }

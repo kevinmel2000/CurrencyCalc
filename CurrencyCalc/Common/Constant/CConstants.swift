@@ -1,3 +1,4 @@
+// swiftlint:disable nesting
 //
 //  CConstants.swift
 //  CurrencyCalc

@@ -66,6 +66,6 @@ struct CCurrencyLayerResponse: HandyJSON {
 
     func getQuoteArr() -> [String?] {
         guard let quotes = quotes else { return [nil] }
-        return [quotes.usd, quotes.aud, quotes.cad, quotes.mxn, quotes.pln]
+        return [quotes.usd, quotes.aud, quotes.cad, quotes.pln, quotes.mxn]
     }
 }
