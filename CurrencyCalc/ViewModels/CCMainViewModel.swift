@@ -7,8 +7,10 @@
 //
 
 import Foundation
+import UIKit
 import RxSwift
 import RxOptional
+import CoreData
 
 enum CCMainViewModelEvent: Equatable {
     case getCurrenciesData(_ group: CConstants.API.DataType)
@@ -40,10 +42,15 @@ protocol CCMainViewModelViewModelType {
 final class CCMainViewModel: CCMainViewModelViewModelType {
     let uiEvents = PublishSubject<CCMainViewModelEvent>()
     let viewModelEvents = PublishSubject<CCMainViewModelEvent>()
-    var currencyLayerResponse: CCurrencyLayerResponse?
+    var currencyLayerResponse: CCurrencyLayerResponse? {
+        didSet {
+            saveToCoreData()
+        }
+    }
 
     private let disposeBag = DisposeBag()
     private let service = QCCurrencyLayerService()
+    private var coreDataObjects: [NSManagedObject]?
 
     init() {
         setupEvents()
@@ -102,5 +109,26 @@ extension CCMainViewModel {
             break
         }
         uiEvents.onNext(.resultCalculation(value * multiplier))
+    }
+
+    private func saveToCoreData() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+
+        let managedContext = appDelegate.persistentContainer.viewContext
+
+        let fetchRequest = NSFetchRequest<NSManagedObject> (entityName: "Currency")
+
+        do {
+            coreDataObjects = try managedContext.fetch(fetchRequest)
+            let managedObject = coreDataObjects?.first
+            if let response = currencyLayerResponse {
+                managedObject?.setValue(response.responseString, forKeyPath: "responseJSON")
+                try managedContext.save()
+            }
+        } catch let error as NSError {
+            print("Could not update attribute. \(error), \(error.userInfo)")
+        }
     }
 }
