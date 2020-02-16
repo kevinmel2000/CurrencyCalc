@@ -76,6 +76,7 @@ extension CCMainViewController {
                 guard let response = self.viewModel.currencyLayerResponse else { return }
                 self.currencyData = response.getQuoteArr().compactMap({$0})
                 self.collectionView.reloadData()
+                CCGlobalTimer.shared.startTimer()
                 if let strDate = response.date {
                     self.dateLabel.text = String(format: Constants.dateLabel, arguments: [strDate])
                 }

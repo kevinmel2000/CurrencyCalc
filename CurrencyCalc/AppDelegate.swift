@@ -47,11 +47,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        self.saveContext()
+        saveContext()
+        CCGlobalTimer.shared.stopTimer()
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        self.saveContext()
+        saveContext()
     }
 }
 

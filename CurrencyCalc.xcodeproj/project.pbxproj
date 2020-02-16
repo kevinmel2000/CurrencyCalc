@@ -32,6 +32,7 @@
 		42EB378D23F9301500B2F200 /* CurrencyCalc.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 42EB378B23F9301400B2F200 /* CurrencyCalc.xcdatamodeld */; };
 		42EB379423F942E400B2F200 /* Currency+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EB379223F942E300B2F200 /* Currency+CoreDataProperties.swift */; };
 		42EB379523F942E400B2F200 /* Currency+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EB379323F942E400B2F200 /* Currency+CoreDataClass.swift */; };
+		42EB379823F950BE00B2F200 /* CCGlobalTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42EB379723F950BE00B2F200 /* CCGlobalTimer.swift */; };
 		4DA9D43FAF1BB4334C2205CD /* Pods_CurrencyCalc.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71DD99687D17B6B343AC5C9F /* Pods_CurrencyCalc.framework */; };
 		885E442C8FEBD271317F660D /* Pods_CurrencyCalcTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBDCAF176BFDE55A4A77445F /* Pods_CurrencyCalcTests.framework */; };
 /* End PBXBuildFile section */
@@ -77,6 +78,7 @@
 		42EB378C23F9301400B2F200 /* CurrencyCalc.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CurrencyCalc.xcdatamodel; sourceTree = "<group>"; };
 		42EB379223F942E300B2F200 /* Currency+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Currency+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		42EB379323F942E400B2F200 /* Currency+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Currency+CoreDataClass.swift"; sourceTree = "<group>"; };
+		42EB379723F950BE00B2F200 /* CCGlobalTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCGlobalTimer.swift; sourceTree = "<group>"; };
 		71DD99687D17B6B343AC5C9F /* Pods_CurrencyCalc.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CurrencyCalc.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AF704CCA323440B29386640 /* Pods-CurrencyCalcTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CurrencyCalcTests.debug.xcconfig"; path = "Target Support Files/Pods-CurrencyCalcTests/Pods-CurrencyCalcTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BBDCAF176BFDE55A4A77445F /* Pods_CurrencyCalcTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CurrencyCalcTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -191,6 +193,7 @@
 		42EB375C23F59C7C00B2F200 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				42EB379623F950A600B2F200 /* Timer */,
 				42EB378A23F92FBD00B2F200 /* Persistance */,
 				42EB377623F5D8A900B2F200 /* Constant */,
 				42EB376C23F5D0FE00B2F200 /* Networking */,
@@ -262,6 +265,14 @@
 				42EB378B23F9301400B2F200 /* CurrencyCalc.xcdatamodeld */,
 			);
 			path = Persistance;
+			sourceTree = "<group>";
+		};
+		42EB379623F950A600B2F200 /* Timer */ = {
+			isa = PBXGroup;
+			children = (
+				42EB379723F950BE00B2F200 /* CCGlobalTimer.swift */,
+			);
+			path = Timer;
 			sourceTree = "<group>";
 		};
 		A49B84AEA1DD4056217DD25C /* Frameworks */ = {
@@ -484,6 +495,7 @@
 				42EB377C23F6E7FD00B2F200 /* CCurrencyLayerService.swift in Sources */,
 				42EB378D23F9301500B2F200 /* CurrencyCalc.xcdatamodeld in Sources */,
 				42EB378923F7DED300B2F200 /* CCMainCollectionViewCell.swift in Sources */,
+				42EB379823F950BE00B2F200 /* CCGlobalTimer.swift in Sources */,
 				42EB377023F5D16400B2F200 /* CCNetworkEvent.swift in Sources */,
 				42EB377F23F6E8A200B2F200 /* CCurrencyLayerResponse.swift in Sources */,
 				42EB375E23F59CCB00B2F200 /* CCMainViewController.swift in Sources */,
