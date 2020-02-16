@@ -10,3 +10,4 @@ This repo is the answer of PayPay coding challenge.
 - [x] Rates should be persisted locally and refreshed no more frequently than every 30 minutes (to limit bandwidth usage)
 
 ### UI:
+![CurrencyCalc_Screnshot](CurrencyCalc_Screnshot.png)
