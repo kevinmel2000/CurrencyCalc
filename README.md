@@ -1,6 +1,10 @@
 # CurrencyCalc
 This repo is the answer of PayPay coding challenge.
 
+### Special Notes:
+- Please run `$ pod install` after cloning this repo from GitHub or downloading it from email. It should ensure the podfiles are installed correctly for the project.
+- Please user `develop` branch to run the projects in Simulator/Real Device.
+
 ### Functional Requirements:
 - [x] Exchange rates must be fetched from: https://currencylayer.com/documentation  
 - [x] Use free API Access Key for using the API
